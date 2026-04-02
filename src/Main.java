@@ -20,33 +20,23 @@ class Bogie {
 public class TrainConsistApp {
     public static void main(String[] args) {
 
-        // Step 1: Create bogie list (reuse UC7/UC8)
+        // Step 1: Create bogie list (reuse previous UCs)
         List<Bogie> bogieList = new ArrayList<>();
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 56));
-        bogieList.add(new Bogie("Sleeper", 70));
         bogieList.add(new Bogie("First Class", 24));
-        bogieList.add(new Bogie("AC Chair", 60));
 
-        // Step 2: Group bogies by type (name)
-        Map<String, List<Bogie>> groupedBogies = bogieList
+        // Step 2: Stream → map → reduce
+        int totalSeats = bogieList
                 .stream()
-                .collect(Collectors.groupingBy(b -> b.name));
+                .map(b -> b.capacity)          // extract capacity
+                .reduce(0, Integer::sum);     // sum all values
 
-        // Step 3: Display grouped result
-        System.out.println("Grouped Bogies by Type:\n");
-
-        for (String key : groupedBogies.keySet()) {
-            System.out.println("Type: " + key);
-
-            for (Bogie b : groupedBogies.get(key)) {
-                b.display();
-            }
-            System.out.println();
-        }
+        // Step 3: Display total
+        System.out.println("Total Seating Capacity: " + totalSeats);
 
         // Step 4: Show original list unchanged
-        System.out.println("Original Bogie List:");
+        System.out.println("\nOriginal Bogie List:");
         for (Bogie b : bogieList) {
             b.display();
         }
