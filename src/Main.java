@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.*;
 
 class Bogie {
     String name;
@@ -19,27 +20,26 @@ class Bogie {
 public class TrainConsistApp {
     public static void main(String[] args) {
 
-        // Step 1: Create list to store bogies
+        // Step 1: Create bogie list (reuse from UC7)
         List<Bogie> bogieList = new ArrayList<>();
-
-        // Step 2: Add passenger bogies
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 56));
         bogieList.add(new Bogie("First Class", 24));
 
-        // Step 3: Sort bogies based on capacity (ascending)
-        bogieList.sort(Comparator.comparingInt(b -> b.capacity));
+        // Step 2: Apply Stream filtering (capacity > 60)
+        List<Bogie> filteredBogies = bogieList
+                .stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
 
-        // Step 4: Display sorted bogies
-        System.out.println("Bogies sorted by capacity (Ascending):");
-        for (Bogie b : bogieList) {
+        // Step 3: Display filtered bogies
+        System.out.println("Filtered Bogies (Capacity > 60):");
+        for (Bogie b : filteredBogies) {
             b.display();
         }
 
-        // Optional: Sort in descending order
-        bogieList.sort((b1, b2) -> b2.capacity - b1.capacity);
-
-        System.out.println("\nBogies sorted by capacity (Descending):");
+        // Step 4: Show original list remains unchanged
+        System.out.println("\nOriginal Bogie List:");
         for (Bogie b : bogieList) {
             b.display();
         }
