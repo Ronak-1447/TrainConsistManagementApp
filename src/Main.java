@@ -20,26 +20,33 @@ class Bogie {
 public class TrainConsistApp {
     public static void main(String[] args) {
 
-        // Step 1: Create bogie list (reuse from UC7)
+        // Step 1: Create bogie list (reuse UC7/UC8)
         List<Bogie> bogieList = new ArrayList<>();
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 56));
+        bogieList.add(new Bogie("Sleeper", 70));
         bogieList.add(new Bogie("First Class", 24));
+        bogieList.add(new Bogie("AC Chair", 60));
 
-        // Step 2: Apply Stream filtering (capacity > 60)
-        List<Bogie> filteredBogies = bogieList
+        // Step 2: Group bogies by type (name)
+        Map<String, List<Bogie>> groupedBogies = bogieList
                 .stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
+                .collect(Collectors.groupingBy(b -> b.name));
 
-        // Step 3: Display filtered bogies
-        System.out.println("Filtered Bogies (Capacity > 60):");
-        for (Bogie b : filteredBogies) {
-            b.display();
+        // Step 3: Display grouped result
+        System.out.println("Grouped Bogies by Type:\n");
+
+        for (String key : groupedBogies.keySet()) {
+            System.out.println("Type: " + key);
+
+            for (Bogie b : groupedBogies.get(key)) {
+                b.display();
+            }
+            System.out.println();
         }
 
-        // Step 4: Show original list remains unchanged
-        System.out.println("\nOriginal Bogie List:");
+        // Step 4: Show original list unchanged
+        System.out.println("Original Bogie List:");
         for (Bogie b : bogieList) {
             b.display();
         }
